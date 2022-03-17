@@ -6,11 +6,25 @@ import java.util.ArrayList;
  */
 public class WordleGrid {
 
-
+    /**
+     * ANSI code for white
+     */
     public static final String WHITE = "\u001B[37m";
+    /**
+     * ANSI code for yellow
+     */
     public static final String YELLOW = "\033[0;33m";
+    /**
+     * ANSI code for green
+     */
     public static final String GREEN = "\033[0;32m";
+    /**
+     * ANSI code for resetting format
+     */
     public static final String RESET = "\u001B[0m";
+    /**
+     * A String array that represents an empty grid with no guesses
+     */
     private static final String[][] EMPTY_GRID = {
             {"_", "_", "_", "_", "_"},
             {"_", "_", "_", "_", "_"},
@@ -42,7 +56,7 @@ public class WordleGrid {
      * @param answer The String that will be converted into a Word object as the correct answer
      */
     public WordleGrid(String answer) {
-        grid = EMPTY_GRID;
+        resetGrid();
         this.answer = new Word(answer);
         guesses = new ArrayList<>();
         solved = false;
@@ -65,9 +79,8 @@ public class WordleGrid {
     }
 
     /**
-     *
-     * @param guess
-     * @return
+     * Checks to see if the grid can hold more guesses and adds a guess to the ArrayList
+     * @param guess The String guess that will be converted ot a Word object before being added
      */
     public void addWord(String guess) {
         if(guesses.size() <= 5) {
@@ -107,6 +120,13 @@ public class WordleGrid {
             }
             System.out.println();
         }
+    }
+
+    /**
+     * Resets the 2DArray representing the printed grid to an empty grid
+     */
+    public void resetGrid() {
+        grid = EMPTY_GRID;
     }
 
     /**
