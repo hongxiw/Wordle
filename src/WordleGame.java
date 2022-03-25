@@ -41,34 +41,43 @@ public class WordleGame {
      * Method to begin playing Wordle
      */
     public void play() {
-        String answer = possibleAnswers.get((int) (Math.random() * (possibleAnswers.size())));
-        grid = new WordleGrid(answer);
         System.out.println("Welcome to Wordle!");
-        int guesses = 0;
-        boolean solved = false;
-        grid.printGrid();
-        while(guesses < 6 && !solved) {
-            boolean invalidGuess = true;
-            while(invalidGuess) {
-                System.out.println("Debug Answer: " + answer);
-                System.out.print("Enter your guess: ");
-                String guess = scan.nextLine().toLowerCase();
-                if(guess.length() == 5 && (allowedGuesses.contains(guess) || possibleAnswers.contains(guess))) {
-                    grid.addWord(guess);
-                    guesses++;
-                    invalidGuess = false;
-                } else {
-                    System.out.println("Not a valid guess!");
+        boolean continuePlaying = true;
+        while(continuePlaying) {
+            String answer = possibleAnswers.get((int) (Math.random() * (possibleAnswers.size())));
+            grid = new WordleGrid(answer);
+            grid.resetGrid();
+            int guesses = 0;
+            boolean solved = false;
+            while(guesses < 6 && !solved) {
+                boolean invalidGuess = true;
+                while(invalidGuess) {
+                    grid.printGrid();
+                    //System.out.println("Debug Answer: " + answer);
+                    System.out.print("Enter your guess: ");
+                    String guess = scan.nextLine().toLowerCase();
+                    if(guess.length() == 5 && (allowedGuesses.contains(guess) || possibleAnswers.contains(guess))) {
+                        grid.addWord(guess);
+                        guesses++;
+                        invalidGuess = false;
+                    } else {
+                        System.out.println("Not a valid guess!");
+                    }
                 }
+                grid.printGrid();
+                solved = grid.isSolved();
             }
-            grid.printGrid();
-            solved = grid.isSolved();
-        }
-        if(solved) {
-            System.out.println("Congrats! You guessed the word in " + guesses + " guesses!");
-        } else {
-            System.out.println("You ran out of guesses!");
-            System.out.println("The correct word was " + grid.getAnswer());
+            if(solved) {
+                System.out.println("Congrats! You guessed the word in " + guesses + " guesses!");
+            } else {
+                System.out.println("You ran out of guesses!");
+                System.out.println("The correct word was " + grid.getAnswer());
+            }
+            System.out.print("Would you like to play again? (y / n) ");
+            String cont = scan.nextLine();
+            if(!cont.equalsIgnoreCase("y")) {
+                continuePlaying = false;
+            }
         }
     }
 
